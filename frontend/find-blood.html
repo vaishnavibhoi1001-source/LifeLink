@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Find Blood | LifeLink</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <div class="logo">LifeLink</div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="find-blood.html">Find Blood</a>
+            <a href="register.html">Become a Donor</a>
+        </nav>
+    </header>
+
+
+    <!-- Find Blood Section -->
+    <section class="form-section">
+
+        <div class="form-container">
+
+            <h1>Find Blood</h1>
+
+            <p class="form-intro">
+                Search for potential blood donors by blood group
+                and location.
+            </p>
+
+
+            <form id="searchForm">
+
+                <!-- Blood Group -->
+                <label for="searchBloodGroup">Blood Group</label>
+
+                <select id="searchBloodGroup" required>
+
+                    <option value="">Select Blood Group</option>
+
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+
+                </select>
+
+
+                <!-- City -->
+                <label for="searchCity">City</label>
+
+                <input
+                    type="text"
+                    id="searchCity"
+                    placeholder="Enter city"
+                    required
+                >
+
+
+                <!-- District -->
+                <label for="searchDistrict">District</label>
+
+                <input
+                    type="text"
+                    id="searchDistrict"
+                    placeholder="Enter district"
+                    required
+                >
+
+
+                <!-- State -->
+                <label for="searchState">State</label>
+
+                <input
+                    type="text"
+                    id="searchState"
+                    placeholder="Enter state"
+                    required
+                >
+
+
+                <button type="submit" class="submit-btn">
+                    Search Blood
+                </button>
+
+            </form>
+
+
+            <!-- Search Results -->
+            <div id="results">
+
+                <!-- Donor results will appear here -->
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 LifeLink | Location-Based Emergency Blood Donor Matching System
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

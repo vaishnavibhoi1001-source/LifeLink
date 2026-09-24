@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Become a Donor | LifeLink</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <div class="logo">LifeLink</div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="find-blood.html">Find Blood</a>
+            <a href="register.html">Become a Donor</a>
+        </nav>
+    </header>
+
+
+    <!-- Registration Section -->
+    <section class="form-section">
+
+        <div class="form-container">
+
+            <h1>Become a Blood Donor</h1>
+
+            <p class="form-intro">
+                Register yourself as a potential voluntary blood donor
+                and help someone in an emergency.
+            </p>
+
+
+            <form id="donorForm">
+
+                <!-- Name -->
+                <label for="name">Full Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+
+                <!-- Age -->
+                <label for="age">Age</label>
+                <input
+                    type="number"
+                    id="age"
+                    name="age"
+                    placeholder="Enter your age"
+                    min="18"
+                    required
+                >
+
+
+                <!-- Blood Group -->
+                <label for="bloodGroup">Blood Group</label>
+
+                <select id="bloodGroup" name="bloodGroup" required>
+
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+
+                </select>
+
+
+                <!-- Mobile -->
+                <label for="mobile">Mobile Number</label>
+
+                <input
+                    type="tel"
+                    id="mobile"
+                    name="mobile"
+                    placeholder="Enter mobile number"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    required
+                >
+
+
+                <!-- City -->
+                <label for="city">City</label>
+
+                <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    placeholder="Enter your city"
+                    required
+                >
+
+
+                <!-- District -->
+                <label for="district">District</label>
+
+                <input
+                    type="text"
+                    id="district"
+                    name="district"
+                    placeholder="Enter your district"
+                    required
+                >
+
+
+                <!-- State -->
+                <label for="state">State</label>
+
+                <input
+                    type="text"
+                    id="state"
+                    name="state"
+                    placeholder="Enter your state"
+                    required
+                >
+
+
+                <!-- Availability -->
+                <label for="availability">Availability</label>
+
+                <select id="availability" name="availability" required>
+
+                    <option value="">Select Availability</option>
+                    <option value="Available">Available</option>
+                    <option value="Not Available">Not Available</option>
+
+                </select>
+
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">
+                    Register as Donor
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 LifeLink | Location-Based Emergency Blood Donor Matching System
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
