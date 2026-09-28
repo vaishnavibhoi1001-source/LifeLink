@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>LifeLink - My Profile</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- Navigation -->
+
+    <header>
+
+        <div class="logo">
+            LifeLink
+        </div>
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="find-blood.html">
+                Find Blood
+            </a>
+
+            <a href="register.html">
+                Register
+            </a>
+
+            <a href="profile.html">
+                My Profile
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- Profile Section -->
+
+    <section class="form-section">
+
+        <div class="form-container">
+
+            <h1>
+                My Profile
+            </h1>
+
+            <p class="form-intro">
+                Enter your registered mobile number to view your donor profile.
+            </p>
+
+
+            <!-- Search Profile -->
+
+            <form id="profileSearchForm">
+
+                <label for="profileMobile">
+                    Registered Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="profileMobile"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    placeholder="Enter 10-digit mobile number"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    View Profile
+                </button>
+
+            </form>
+
+
+            <p id="profileMessage"></p>
+
+
+
+            <!-- Profile Details -->
+
+            <div
+                id="profileDetails"
+                style="display: none;"
+            >
+
+                <h2>
+                    Donor Details
+                </h2>
+
+
+                <p>
+                    <strong>Name:</strong>
+                    <span id="profileName"></span>
+                </p>
+
+
+                <p>
+                    <strong>Age:</strong>
+                    <span id="profileAge"></span>
+                </p>
+
+
+                <p>
+                    <strong>Gender:</strong>
+                    <span id="profileGender"></span>
+                </p>
+
+
+                <p>
+                    <strong>Weight:</strong>
+                    <span id="profileWeight"></span>
+                    kg
+                </p>
+
+
+                <p>
+                    <strong>Blood Group:</strong>
+                    <span id="profileBloodGroup"></span>
+                </p>
+
+
+                <p>
+                    <strong>Mobile:</strong>
+                    <span id="profileMobileDisplay"></span>
+                </p>
+
+
+                <p>
+                    <strong>City:</strong>
+                    <span id="profileCity"></span>
+                </p>
+
+
+                <p>
+                    <strong>District:</strong>
+                    <span id="profileDistrict"></span>
+                </p>
+
+
+                <p>
+                    <strong>State:</strong>
+                    <span id="profileState"></span>
+                </p>
+
+
+                <p>
+                    <strong>Availability:</strong>
+                    <span id="profileAvailability"></span>
+                </p>
+
+
+                <p>
+                    <strong>Last Donation Date:</strong>
+                    <span id="profileLastDonation"></span>
+                </p>
+
+
+                <button
+                    type="button"
+                    id="editProfileBtn"
+                    class="submit-btn"
+                >
+                    Edit Profile
+                </button>
+
+            </div>
+
+
+
+            <!-- Edit Profile -->
+
+            <div
+                id="editProfileSection"
+                style="display: none;"
+            >
+
+                <h2>
+                    Edit Profile
+                </h2>
+
+
+                <form id="editProfileForm">
+
+
+                    <label for="editName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editName"
+                        required
+                    >
+
+
+
+                    <label for="editAge">
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="editAge"
+                        min="18"
+                        required
+                    >
+
+
+
+                    <label for="editGender">
+                        Gender
+                    </label>
+
+                    <select
+                        id="editGender"
+                        required
+                    >
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+
+
+                    <label for="editWeight">
+                        Weight (kg)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="editWeight"
+                        min="1"
+                        step="0.1"
+                        required
+                    >
+
+
+
+                    <label for="editCity">
+                        City
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editCity"
+                        required
+                    >
+
+
+
+                    <label for="editDistrict">
+                        District
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editDistrict"
+                        required
+                    >
+
+
+
+                    <label for="editState">
+                        State
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editState"
+                        required
+                    >
+
+
+
+                    <label for="editAvailability">
+                        Availability
+                    </label>
+
+                    <select
+                        id="editAvailability"
+                        required
+                    >
+
+                        <option value="">
+                            Select Availability
+                        </option>
+
+                        <option value="Available">
+                            Available
+                        </option>
+
+                        <option value="Not Available">
+                            Not Available
+                        </option>
+
+                    </select>
+
+
+
+                    <label for="editLastDonationDate">
+                        Last Donation Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="editLastDonationDate"
+                    >
+
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        Save Changes
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="cancelEditBtn"
+                        class="submit-btn"
+                    >
+                        Cancel
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 LifeLink. All rights reserved.
+        </p>
+
+        <p>
+            Connecting donors with those in need.
+        </p>
+
+    </footer>
+
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
