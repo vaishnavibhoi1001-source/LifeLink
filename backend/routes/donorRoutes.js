@@ -269,7 +269,13 @@ router.post("/register", async (req, res) => {
             availability,
             pin
         } = req.body;
+const existingDonor = await Donor.findOne({ mobile });
 
+if (existingDonor) {
+    return res.status(400).json({
+        message: "This mobile number is already registered with LifeLink."
+    });
+}
 
         if (
             !name ||
@@ -449,14 +455,18 @@ router.post("/register", async (req, res) => {
 
 
     } catch (error) {
+    console.error("Registration Error:", error);
 
-        console.error(error);
-
-        res.status(500).json({
-            message:
-                "Donor registration failed."
+    if (error.code === 11000) {
+        return res.status(400).json({
+            message: "This mobile number is already registered with LifeLink."
         });
     }
+
+    res.status(500).json({
+        message: "Failed to register donor."
+    });
+}
 });
 
 

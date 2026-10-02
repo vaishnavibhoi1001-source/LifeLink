@@ -32,10 +32,8 @@ const donorSchema = new mongoose.Schema(
       required: true,
     },
 
-    mobile: {
-      type: String,
-      required: true,
-    },
+    mobile: { type: String, required: true, unique: true },
+    
 
     // Used later for secure profile verification
     // Existing donors will automatically have null here

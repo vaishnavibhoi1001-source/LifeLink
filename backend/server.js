@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 
 const donorRoutes = require("./routes/donorRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(express.static(frontendPath));
 // ===============================
 
 app.use("/api/donors", donorRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 
 // ===============================
