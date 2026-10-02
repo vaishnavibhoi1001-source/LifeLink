@@ -177,13 +177,176 @@
                 </p>
 
 
+                <!-- PIN Security Section -->
+
+                <div
+                    id="pinSecuritySection"
+                    style="margin-top: 25px;"
+                >
+
+                    <h2>
+                        🔐 Profile Security
+                    </h2>
+
+                    <p>
+                        Protect your profile with a 6-digit PIN.
+                    </p>
+
+
+                    <!-- Create PIN -->
+
+                    <div
+                        id="createPinSection"
+                        style="display: none;"
+                    >
+
+                        <h3>
+                            Create Your Profile PIN
+                        </h3>
+
+                        <p>
+                            You have not created a profile PIN yet.
+                            Create one to protect your profile from unauthorized changes.
+                        </p>
+
+
+                        <form id="createPinForm">
+
+
+                            <label for="createPin">
+                                Create 6-Digit PIN
+                            </label>
+
+                            <input
+                                type="password"
+                                id="createPin"
+                                maxlength="6"
+                                inputmode="numeric"
+                                pattern="[0-9]{6}"
+                                placeholder="Enter 6-digit PIN"
+                                required
+                            >
+
+
+                            <label for="confirmPin">
+                                Confirm PIN
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmPin"
+                                maxlength="6"
+                                inputmode="numeric"
+                                pattern="[0-9]{6}"
+                                placeholder="Re-enter 6-digit PIN"
+                                required
+                            >
+
+
+                            <button
+                                type="submit"
+                                class="submit-btn"
+                            >
+                                Create PIN
+                            </button>
+
+
+                        </form>
+
+                    </div>
+
+
+                    <!-- Existing PIN Message -->
+
+                    <div
+                        id="pinExistsSection"
+                        style="display: none;"
+                    >
+
+                        <p>
+                            🔒 Your profile PIN is already set.
+                        </p>
+
+                        <p>
+                            You must verify your PIN before editing your profile.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Edit Profile Button -->
+
                 <button
                     type="button"
                     id="editProfileBtn"
                     class="submit-btn"
+                    style="display: none;"
                 >
                     Edit Profile
                 </button>
+
+            </div>
+
+
+
+            <!-- PIN Verification Section -->
+
+            <div
+                id="pinVerificationSection"
+                style="display: none;"
+            >
+
+                <h2>
+                    🔐 Verify Your Profile
+                </h2>
+
+                <p>
+                    Enter your 6-digit PIN to continue editing your profile.
+                </p>
+
+
+                <form id="verifyPinForm">
+
+
+                    <label for="verifyPin">
+                        Profile PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        id="verifyPin"
+                        maxlength="6"
+                        inputmode="numeric"
+                        pattern="[0-9]{6}"
+                        placeholder="Enter 6-digit PIN"
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        Verify PIN
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="cancelPinVerificationBtn"
+                        class="submit-btn"
+                    >
+                        Cancel
+                    </button>
+
+
+                </form>
+
+
+                <p id="pinMessage"></p>
 
             </div>
 

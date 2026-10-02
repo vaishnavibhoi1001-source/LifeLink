@@ -1,5 +1,6 @@
 // =====================================================
 // LIFELINK - DONOR REGISTRATION
+// PART 1 OF 4
 // =====================================================
 
 const donorForm = document.getElementById("donorForm");
@@ -18,7 +19,6 @@ if (donorForm) {
         document.getElementById("firstTimeDonor");
 
 
-    // Calculate estimated next eligible date
     function calculateNextEligibleDate() {
 
         if (
@@ -71,7 +71,6 @@ if (donorForm) {
     );
 
 
-    // Registration
     donorForm.addEventListener(
         "submit",
         async function (event) {
@@ -140,7 +139,34 @@ if (donorForm) {
                     document.getElementById("availability")
                         .value
             };
+// =====================================================
+// PART 2 OF 4
+// REGISTRATION CONTINUED + FIND BLOOD
+// =====================================================
 
+
+            // Registration PIN
+            const registrationPin =
+                document.getElementById("registrationPin");
+
+            if (registrationPin) {
+
+                const pin =
+                    registrationPin.value.trim();
+
+                if (!/^[0-9]{6}$/.test(pin)) {
+
+                    message.textContent =
+                        "Please enter a valid 6-digit PIN.";
+
+                    return;
+                }
+
+                data.pin = pin;
+            }
+
+
+            // Validation
 
             if (!/^[0-9]{10}$/.test(data.mobile)) {
 
@@ -178,6 +204,8 @@ if (donorForm) {
             }
 
 
+            // Send registration data
+
             try {
 
                 const response =
@@ -207,12 +235,21 @@ if (donorForm) {
                         result.message ||
                         "Donor registration failed.";
 
+                    message.style.color =
+                        "red";
+
                     return;
                 }
 
 
-                message.textContent =
-                    "Donor registered successfully!";
+                // Success message
+
+                message.innerHTML = `
+                    <strong>Thank You! ❤️</strong><br>
+                    You are registered successfully.<br>
+                    Your small help can make a very big change in someone's life.<br>
+                    It takes courage to become a blood donor. Thank you for taking the step.
+                `;
 
                 message.style.color =
                     "green";
@@ -229,10 +266,15 @@ if (donorForm) {
 
                 message.textContent =
                     "Unable to connect to LifeLink server.";
+
+                message.style.color =
+                    "red";
             }
         }
     );
 }
+
+
 // =====================================================
 // FIND BLOOD
 // =====================================================
@@ -424,7 +466,8 @@ if (searchForm) {
     );
 }
 // =====================================================
-// MY PROFILE
+// PART 3 + PART 4
+// MY PROFILE + PIN SECURITY + EDIT PROFILE
 // =====================================================
 
 const profileSearchForm =
@@ -433,6 +476,9 @@ const profileSearchForm =
 if (profileSearchForm) {
 
     let currentDonorId = null;
+    let profileHasPin = false;
+    let profileVerified = false;
+    let profileVerificationToken = null;
 
     const profileMessage =
         document.getElementById("profileMessage");
@@ -443,10 +489,34 @@ if (profileSearchForm) {
     const editProfileSection =
         document.getElementById("editProfileSection");
 
+    const editProfileBtn =
+        document.getElementById("editProfileBtn");
 
-    // =================================================
+    const createPinSection =
+        document.getElementById("createPinSection");
+
+    const pinExistsSection =
+        document.getElementById("pinExistsSection");
+
+    const createPinForm =
+        document.getElementById("createPinForm");
+
+    const pinVerificationSection =
+        document.getElementById("pinVerificationSection");
+
+    const verifyPinForm =
+        document.getElementById("verifyPinForm");
+
+    const cancelPinVerificationBtn =
+        document.getElementById("cancelPinVerificationBtn");
+
+    const pinMessage =
+        document.getElementById("pinMessage");
+
+
+    // ==========================================
     // VIEW PROFILE
-    // =================================================
+    // ==========================================
 
     profileSearchForm.addEventListener(
         "submit",
@@ -455,10 +525,10 @@ if (profileSearchForm) {
             event.preventDefault();
 
             const mobile =
-                document.getElementById(
-                    "profileMobile"
-                ).value.trim();
-
+                document
+                    .getElementById("profileMobile")
+                    .value
+                    .trim();
 
             if (!/^[0-9]{10}$/.test(mobile)) {
 
@@ -468,22 +538,18 @@ if (profileSearchForm) {
                 return;
             }
 
-
             try {
 
                 profileMessage.textContent =
                     "Loading profile...";
-
 
                 const response =
                     await fetch(
                         `/api/donors/profile/mobile/${mobile}`
                     );
 
-
                 const donor =
                     await response.json();
-
 
                 if (!response.ok) {
 
@@ -497,71 +563,60 @@ if (profileSearchForm) {
                     return;
                 }
 
-
                 currentDonorId =
                     donor.id;
+
+                profileHasPin =
+                    Boolean(donor.hasPin);
+
+                profileVerified =
+                    false;
+
+                profileVerificationToken =
+                    null;
 
 
                 document.getElementById(
                     "profileName"
-                ).textContent =
-                    donor.name;
-
+                ).textContent = donor.name;
 
                 document.getElementById(
                     "profileAge"
-                ).textContent =
-                    donor.age;
-
+                ).textContent = donor.age;
 
                 document.getElementById(
                     "profileGender"
-                ).textContent =
-                    donor.gender;
-
+                ).textContent = donor.gender;
 
                 document.getElementById(
                     "profileWeight"
-                ).textContent =
-                    donor.weight;
-
+                ).textContent = donor.weight;
 
                 document.getElementById(
                     "profileBloodGroup"
-                ).textContent =
-                    donor.bloodGroup;
-
+                ).textContent = donor.bloodGroup;
 
                 document.getElementById(
                     "profileMobileDisplay"
                 ).textContent =
-                    donor.mobile ||
-                    "Not shared";
-
+                    donor.mobile || "Not shared";
 
                 document.getElementById(
                     "profileCity"
-                ).textContent =
-                    donor.city;
-
+                ).textContent = donor.city;
 
                 document.getElementById(
                     "profileDistrict"
-                ).textContent =
-                    donor.district;
-
+                ).textContent = donor.district;
 
                 document.getElementById(
                     "profileState"
-                ).textContent =
-                    donor.state;
-
+                ).textContent = donor.state;
 
                 document.getElementById(
                     "profileAvailability"
                 ).textContent =
                     donor.availability;
-
 
                 document.getElementById(
                     "profileLastDonation"
@@ -579,9 +634,37 @@ if (profileSearchForm) {
                 editProfileSection.style.display =
                     "none";
 
+                pinVerificationSection.style.display =
+                    "none";
+
+
+                if (profileHasPin) {
+
+                    createPinSection.style.display =
+                        "none";
+
+                    pinExistsSection.style.display =
+                        "block";
+
+                    editProfileBtn.style.display =
+                        "block";
+
+                } else {
+
+                    createPinSection.style.display =
+                        "block";
+
+                    pinExistsSection.style.display =
+                        "none";
+
+                    editProfileBtn.style.display =
+                        "none";
+                }
+
 
                 profileMessage.textContent =
                     "Profile loaded successfully.";
+
 
             } catch (error) {
 
@@ -594,15 +677,130 @@ if (profileSearchForm) {
     );
 
 
-    // =================================================
-    // EDIT PROFILE
-    // =================================================
+    // ==========================================
+    // CREATE PIN
+    // ==========================================
 
-    const editProfileBtn =
-        document.getElementById(
-            "editProfileBtn"
+    if (createPinForm) {
+
+        createPinForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+                if (!currentDonorId) {
+
+                    pinMessage.textContent =
+                        "Please load your profile first.";
+
+                    return;
+                }
+
+
+                const pin =
+                    document
+                        .getElementById("createPin")
+                        .value
+                        .trim();
+
+                const confirmPin =
+                    document
+                        .getElementById("confirmPin")
+                        .value
+                        .trim();
+
+
+                if (!/^[0-9]{6}$/.test(pin)) {
+
+                    pinMessage.textContent =
+                        "PIN must be exactly 6 digits.";
+
+                    return;
+                }
+
+
+                if (pin !== confirmPin) {
+
+                    pinMessage.textContent =
+                        "PIN and Confirm PIN do not match.";
+
+                    return;
+                }
+
+
+                try {
+
+                    pinMessage.textContent =
+                        "Creating PIN...";
+
+
+                    const response =
+                        await fetch(
+                            `/api/donors/profile/${currentDonorId}/set-pin`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        pin: pin
+                                    })
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        pinMessage.textContent =
+                            result.message ||
+                            "Unable to create PIN.";
+
+                        return;
+                    }
+
+
+                    profileHasPin =
+                        true;
+
+                    createPinForm.reset();
+
+                    createPinSection.style.display =
+                        "none";
+
+                    pinExistsSection.style.display =
+                        "block";
+
+                    editProfileBtn.style.display =
+                        "block";
+
+                    pinMessage.textContent =
+                        "Profile PIN created successfully.";
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    pinMessage.textContent =
+                        "Unable to connect to LifeLink server.";
+                }
+            }
         );
+    }
 
+
+    // ==========================================
+    // EDIT PROFILE BUTTON
+    // ==========================================
 
     if (editProfileBtn) {
 
@@ -610,83 +808,247 @@ if (profileSearchForm) {
             "click",
             function () {
 
-                document.getElementById(
-                    "editName"
-                ).value =
-                    document.getElementById(
-                        "profileName"
-                    ).textContent;
+                if (!profileHasPin) {
+
+                    pinMessage.textContent =
+                        "Please create your profile PIN first.";
+
+                    return;
+                }
 
 
-                document.getElementById(
-                    "editAge"
-                ).value =
-                    document.getElementById(
-                        "profileAge"
-                    ).textContent;
-
-
-                document.getElementById(
-                    "editGender"
-                ).value =
-                    document.getElementById(
-                        "profileGender"
-                    ).textContent;
-
-
-                document.getElementById(
-                    "editWeight"
-                ).value =
-                    document.getElementById(
-                        "profileWeight"
-                    ).textContent;
-
-
-                document.getElementById(
-                    "editCity"
-                ).value =
-                    document.getElementById(
-                        "profileCity"
-                    ).textContent;
-
-
-                document.getElementById(
-                    "editDistrict"
-                ).value =
-                    document.getElementById(
-                        "profileDistrict"
-                    ).textContent;
-
-
-                document.getElementById(
-                    "editState"
-                ).value =
-                    document.getElementById(
-                        "profileState"
-                    ).textContent;
-
-
-                document.getElementById(
-                    "editAvailability"
-                ).value =
-                    document.getElementById(
-                        "profileAvailability"
-                    ).textContent;
-
-
-                editProfileSection.style.display =
+                pinVerificationSection.style.display =
                     "block";
 
                 profileDetails.style.display =
                     "none";
+
+                editProfileSection.style.display =
+                    "none";
+
+                pinMessage.textContent = "";
+
+                document.getElementById(
+                    "verifyPin"
+                ).value = "";
             }
         );
     }
 
 
-    // =================================================
+    // ==========================================
+    // VERIFY PIN
+    // ==========================================
+
+    if (verifyPinForm) {
+
+        verifyPinForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+                if (!currentDonorId) {
+
+                    pinMessage.textContent =
+                        "Please load your profile first.";
+
+                    return;
+                }
+
+
+                const pin =
+                    document
+                        .getElementById("verifyPin")
+                        .value
+                        .trim();
+
+
+                if (!/^[0-9]{6}$/.test(pin)) {
+
+                    pinMessage.textContent =
+                        "Please enter a valid 6-digit PIN.";
+
+                    return;
+                }
+
+
+                try {
+
+                    pinMessage.textContent =
+                        "Verifying PIN...";
+
+
+                    const response =
+                        await fetch(
+                            `/api/donors/profile/${currentDonorId}/verify-pin`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        pin: pin
+                                    })
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        pinMessage.textContent =
+                            result.message ||
+                            "PIN verification failed.";
+
+                        return;
+                    }
+
+
+                    // IMPORTANT:
+                    // Store secure verification token
+                    profileVerificationToken =
+                        result.verificationToken;
+
+                    profileVerified =
+                        true;
+
+
+                    pinVerificationSection.style.display =
+                        "none";
+
+                    editProfileSection.style.display =
+                        "block";
+
+                    profileDetails.style.display =
+                        "none";
+
+
+                    document.getElementById(
+                        "editName"
+                    ).value =
+                        document.getElementById(
+                            "profileName"
+                        ).textContent;
+
+
+                    document.getElementById(
+                        "editAge"
+                    ).value =
+                        document.getElementById(
+                            "profileAge"
+                        ).textContent;
+
+
+                    document.getElementById(
+                        "editGender"
+                    ).value =
+                        document.getElementById(
+                            "profileGender"
+                        ).textContent;
+
+
+                    document.getElementById(
+                        "editWeight"
+                    ).value =
+                        document.getElementById(
+                            "profileWeight"
+                        ).textContent;
+
+
+                    document.getElementById(
+                        "editCity"
+                    ).value =
+                        document.getElementById(
+                            "profileCity"
+                        ).textContent;
+
+
+                    document.getElementById(
+                        "editDistrict"
+                    ).value =
+                        document.getElementById(
+                            "profileDistrict"
+                        ).textContent;
+
+
+                    document.getElementById(
+                        "editState"
+                    ).value =
+                        document.getElementById(
+                            "profileState"
+                        ).textContent;
+
+
+                    document.getElementById(
+                        "editAvailability"
+                    ).value =
+                        document.getElementById(
+                            "profileAvailability"
+                        ).textContent;
+
+
+                    pinMessage.textContent =
+                        "PIN verified successfully.";
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    pinMessage.textContent =
+                        "Unable to connect to LifeLink server.";
+                }
+            }
+        );
+    }
+
+
+    // ==========================================
+    // CANCEL PIN VERIFICATION
+    // ==========================================
+
+    if (cancelPinVerificationBtn) {
+
+        cancelPinVerificationBtn.addEventListener(
+            "click",
+            function () {
+
+                pinVerificationSection.style.display =
+                    "none";
+
+                profileDetails.style.display =
+                    "block";
+
+                editProfileSection.style.display =
+                    "none";
+
+                document.getElementById(
+                    "verifyPin"
+                ).value = "";
+
+                profileVerified =
+                    false;
+
+                profileVerificationToken =
+                    null;
+
+                pinMessage.textContent = "";
+            }
+        );
+    }
+
+
+    // ==========================================
     // CANCEL EDIT
-    // =================================================
+    // ==========================================
 
     const cancelEditBtn =
         document.getElementById(
@@ -703,16 +1065,25 @@ if (profileSearchForm) {
                 editProfileSection.style.display =
                     "none";
 
+                pinVerificationSection.style.display =
+                    "none";
+
                 profileDetails.style.display =
                     "block";
+
+                profileVerified =
+                    false;
+
+                profileVerificationToken =
+                    null;
             }
         );
     }
 
 
-    // =================================================
+    // ==========================================
     // SAVE PROFILE CHANGES
-    // =================================================
+    // ==========================================
 
     const editProfileForm =
         document.getElementById(
@@ -738,56 +1109,90 @@ if (profileSearchForm) {
                 }
 
 
+                if (
+                    !profileVerified ||
+                    !profileVerificationToken
+                ) {
+
+                    profileMessage.textContent =
+                        "Please verify your PIN before saving changes.";
+
+                    return;
+                }
+
+
                 const updatedData = {
 
                     name:
-                        document.getElementById(
-                            "editName"
-                        ).value.trim(),
+                        document
+                            .getElementById(
+                                "editName"
+                            )
+                            .value
+                            .trim(),
 
                     age:
                         Number(
-                            document.getElementById(
-                                "editAge"
-                            ).value
+                            document
+                                .getElementById(
+                                    "editAge"
+                                )
+                                .value
                         ),
 
                     gender:
-                        document.getElementById(
-                            "editGender"
-                        ).value,
+                        document
+                            .getElementById(
+                                "editGender"
+                            )
+                            .value,
 
                     weight:
                         Number(
-                            document.getElementById(
-                                "editWeight"
-                            ).value
+                            document
+                                .getElementById(
+                                    "editWeight"
+                                )
+                                .value
                         ),
 
                     city:
-                        document.getElementById(
-                            "editCity"
-                        ).value.trim(),
+                        document
+                            .getElementById(
+                                "editCity"
+                            )
+                            .value
+                            .trim(),
 
                     district:
-                        document.getElementById(
-                            "editDistrict"
-                        ).value.trim(),
+                        document
+                            .getElementById(
+                                "editDistrict"
+                            )
+                            .value
+                            .trim(),
 
                     state:
-                        document.getElementById(
-                            "editState"
-                        ).value.trim(),
+                        document
+                            .getElementById(
+                                "editState"
+                            )
+                            .value
+                            .trim(),
 
                     availability:
-                        document.getElementById(
-                            "editAvailability"
-                        ).value,
+                        document
+                            .getElementById(
+                                "editAvailability"
+                            )
+                            .value,
 
                     lastDonationDate:
-                        document.getElementById(
-                            "editLastDonationDate"
-                        ).value || null
+                        document
+                            .getElementById(
+                                "editLastDonationDate"
+                            )
+                            .value || null
                 };
 
 
@@ -804,8 +1209,12 @@ if (profileSearchForm) {
                                 method: "PUT",
 
                                 headers: {
+
                                     "Content-Type":
-                                        "application/json"
+                                        "application/json",
+
+                                    "Authorization":
+                                        `Bearer ${profileVerificationToken}`
                                 },
 
                                 body:
@@ -835,6 +1244,13 @@ if (profileSearchForm) {
                         "Profile updated successfully!";
 
 
+                    profileVerified =
+                        false;
+
+                    profileVerificationToken =
+                        null;
+
+
                     editProfileSection.style.display =
                         "none";
 
@@ -857,4 +1273,5 @@ if (profileSearchForm) {
             }
         );
     }
+
 }
